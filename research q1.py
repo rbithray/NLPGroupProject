@@ -3,17 +3,12 @@ from bertopic import BERTopic
 import torch 
 import pandas as pd
 import json
-import os
+from os import path
 
-import json
+comments = pd.read_json(path.join('data', 'comments.ndjson'), lines=True)
+submissions = pd.read_json(path.join('data', 'submissions.ndjson'), lines=True)
 
-# Open the NDJSON file
-from os import path:
+model = BERTopic()
 
-
-with open('data\comments.ndjson', 'r') as f:
-    data = [json.loads(line) for line in f]
-
-# `data` is now a list of dictionaries
-for item in data:
-    print(item)
+topics, probs = model.fit_transform(comments['body'])
+model.visualize_topics()

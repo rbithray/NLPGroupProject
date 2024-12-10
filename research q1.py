@@ -10,6 +10,7 @@ import json
 # Open the NDJSON file
 from os import path:
 
+
 with open('data\comments.ndjson', 'r') as f:
     data = [json.loads(line) for line in f]
 

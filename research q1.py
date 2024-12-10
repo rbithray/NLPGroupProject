@@ -11,5 +11,4 @@ submissions = pd.read_json(path.join('data', 'submissions.ndjson'), lines=True)
 model = BERTopic()
 
 topics, probs = model.fit_transform(comments['body'])
-print(model.get_topic_info())
-model.get_topic(0)
+model.visualize_topics()

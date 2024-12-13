@@ -20,6 +20,13 @@ submissions_path = 'data/submissions.ndjson'
 comments = pd.read_json(comments_path, lines=True)
 submissions = pd.read_json(submissions_path, lines=True)
 
+removed_markers = ["[removed]", "[deleted]"]
+comments = comments[~comments['body'].isin(removed_markers)]
+comments = comments[comments['body'].notnull()]  # Remove null comments
+
+
+# Apply preprocessing to the filtered comments
+
 # Use SentenceTransformers for embeddings
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 
@@ -34,7 +41,7 @@ topics, probs = model.fit_transform(comments['body'])
 #%%
 # Find similar topics related to "regulation"
 similar_topics, similarity = model.find_topics("regulation", top_n=5)
-
+print(similar_topics)
 # Retrieve the most similar topic
 if similar_topics:
     regulation_topic = model.get_topic(similar_topics[0])
@@ -52,5 +59,5 @@ if similar_topics:
     print(regulation_comments['body'])
 else:
     print("No topics found related to 'politics'.")
-
 model.visualize_topics()
+# %%

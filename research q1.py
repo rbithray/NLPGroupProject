@@ -72,14 +72,20 @@ print(all_indices_sorted)
 
 import json
 
-# Je lijst met indices
-all_indices_sorted = sorted(list(all_indices))
+# Je lijst met indices en comments (voorbeeld)
+all_indices_sorted = sorted(list(all_indices))  # Gesorteerde lijst met indices
+comments_body = comments["body"]  # De comments uit je data
 
-# Opslaan als JSON-bestand
-with open('indices.json', 'w') as f:
-    json.dump(all_indices_sorted, f)
+# Maak een dictionary met indices en bijbehorende comments
+comments_with_indices = {index: comments_body[index] for index in all_indices_sorted}
 
-print("Indices opgeslagen in 'indices.json'")
+# Opslaan als JSON-bestand met expliciete UTF-8 codering
+with open('comments.json', 'w', encoding='utf-8') as f:
+    json.dump(comments_with_indices, f, ensure_ascii=False, indent=4)
+
+print("Comments opgeslagen in 'comments.json'")
+
+
 
 #%%
 model.visualize_topics()

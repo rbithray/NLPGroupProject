@@ -1,14 +1,10 @@
 #%%
 import numpy as np
 from bertopic import BERTopic
-import torch
 import pandas as pd
-import json
-from os import path
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-import nltk
 from sentence_transformers import SentenceTransformer
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import PCA
 
 
 #%%
@@ -24,14 +20,10 @@ removed_markers = ["[removed]", "[deleted]"]
 comments = comments[~comments['body'].isin(removed_markers)]
 comments = comments[comments['body'].notnull()]  # Remove null comments
 
-
-# Apply preprocessing to the filtered comments
-
-# Use SentenceTransformers for embeddings
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
-
+vectorizer_model = CountVectorizer(ngram_range=(1, 2), stop_words='english', min_df = 10)
 # Initialize BERTopic model
-model = BERTopic(embedding_model=embedding_model)
+model = BERTopic(embedding_model=embedding_model, vectorizer_model=vectorizer_model)
 
 # Fit the model
 topics, probs = model.fit_transform(comments['body'])

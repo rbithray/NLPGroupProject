@@ -88,7 +88,7 @@ model.visualize_topics()
 topic_frequencies = model.get_topic_info()
 
 # Display the top N topics by frequency
-print(topic_frequencies.head(10))
+print(topic_frequencies.head(17))
 
 # Display the top words for the most frequent topics
 for topic_id in topic_frequencies['Topic'].head(10):
@@ -97,4 +97,5 @@ for topic_id in topic_frequencies['Topic'].head(10):
         print(model.get_topic(topic_id))
 
 # %%
-print(model.get_topic{6})
+print(model.get_topic(6))
+# %%

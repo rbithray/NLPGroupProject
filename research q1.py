@@ -33,13 +33,36 @@ topics, probs = model.fit_transform(comments['body'])
 #%%
 
 # Define the list of keywords to search for
-keywords = ["regulations", "regulation", "regulatory","law","laws", 
-            "government", "policy", "policies","politics","rules", 
-            "control","management","governance","conduct","statute",
-            "ordenance","order","monitoring","supervision","restriction",
-            "oversight","limitations","guidelines","compliance","enforcement",
-            "authority","bylaw","license","standards","mandate","police",
-            "judge","court","fairness","ethics","country"]
+keywords = [
+    "regulations", "regulation", "regulatory", "law", "laws", 
+    "government", "policy", "policies", "politics", "rules", 
+    "control", "management", "governance", "conduct", "statute",
+    "ordinance", "order", "monitoring", "supervision", "restriction",
+    "oversight", "limitations", "guidelines", "compliance", "enforcement",
+    "authority", "bylaw", "license", "standards", "mandate", "police",
+    "judge", "court", "fairness", "ethics", "country",
+    # Additional keywords
+    "act", "charter", "code", "decree", "edict", "legislation", 
+    "proclamation", "provision", "ruling", "sanction", "treaty", 
+    "protocol", "constitution", "convention", "ordinance", "clause",
+    "inspection", "audit", "adjudication", "penalties", "fines", 
+    "licensing", "mandates", "verification", "certification", 
+    "accountability", "adherence", "obligations", "restrictions", 
+    "surveillance", "checks", "safeguards",
+    "bureaucracy", "legislature", "senate", "congress", "parliament", 
+    "ministry", "executive", "agency", "department", "cabinet", 
+    "council", "committee", "assembly", "tribunal", "sovereignty", 
+    "jurisdiction", "administration",
+    "equity", "morality", "justice", "integrity", "honesty", 
+    "transparency", "accountability", "responsibility", "standards", 
+    "good practices",
+    "oversight", "governance", "dominion", "superintendence", 
+    "command", "directive", "guidance", "arbitration", "mediation",
+    "benchmark", "criteria", "protocols", "quality assurance", 
+    "specification", "standardization", "prescriptions", "guidelines", 
+    "recommendations", "ruleset", "framework"
+]
+
 
 # Create an empty set to store unique indices
 all_indices = set()

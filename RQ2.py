@@ -52,3 +52,11 @@ print(model.topic_representations_)
 
 
 # %%
+# Gathering the top 5 topic representations over time
+
+print(model.get_topic(0)) # Topics related to art and artists
+print(model.get_topic(1)) # Topics related to AI and humans
+print(model.get_topic(2)) # Topics related to chatbots
+print(model.get_topic(3)) # Topics related to music
+print(model.get_topic(4)) # Topics related to AI tiles or something
+# %%

@@ -1,46 +1,44 @@
 #%%
-!pip install --upgrade nbformat
-#%%
+# Imports and preprocessing of data
 from bertopic import BERTopic
 import numpy as np
 import pandas as pd
-import json
 from os import path
-import nbformat
+
 
 comments_path = 'data/comments.ndjson'
 submissions_path = 'data/submissions.ndjson'
 
 
 comments_df = pd.read_json(path.join('data', 'comments.ndjson'), lines=True)
-submission_data = pd.read_json(path.join('data', 'comments.ndjson'), lines=True)
-
+submission_df = pd.read_json(path.join('data', 'submissions.ndjson'), lines=True)
 
 comments = comments_df[(comments_df['body'] != '[removed]') & (comments_df['body'] != '[deleted]')]
-comments['date'] = pd.to_datetime(comments['created_utc'], unit='s').dt.strftime("%d, %m, %Y")
-print(comments['date'])
+
+comments['date'] = pd.to_datetime(comments['created_utc'], unit='s').dt.strftime("%m, %d, %Y")
+submission_df['date'] = pd.to_datetime(submission_df['created_utc'], unit='s').dt.strftime("%m, %d, %Y")
+
+text = pd.concat([comments['body'], submission_df['title']], axis=0)
+timestamps = pd.concat([comments['date'], submission_df['date']], axis=0)
+
+#%%
+print(len(text.tolist()))
+
+
 #%%
 # Initializing and fitting the model
 model = BERTopic()
-topics, probs = model.fit_transform(comments['body'])
+topics, probs = model.fit_transform(text.tolist())
 
 #%%
-# model.visualize_topics()
-# model.get_topic_info()
+# Generate topics over time
+topics_over_time = model.topics_over_time(
+    text.tolist(),
+    timestamps.tolist(),
+    nr_bins=7
+)
 
-new_topic_labels = {
-    0: "AI and Humanity",
-    1: "Art and copyright",
-    2: "AI and consciousness",
-    3: "Chatbots and conversation",
-    4: "AI agents and tools"
-}
-
-
-topics_over_time = model.topics_over_time(comments['body'], comments['date'], nr_bins=7, datetime_format='%d, %m, %Y')
-model.set_topic_labels(new_topic_labels)
-
-model.visualize_topics_over_time(topics_over_time, custom_labels=new_topic_labels, top_n_topics=5)
+model.visualize_topics_over_time(topics_over_time, top_n_topics=10)
 
 # model.visualize_topics_over_time(topics_over_time, top_n_topics=10)
 

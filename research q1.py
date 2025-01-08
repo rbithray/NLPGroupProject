@@ -39,7 +39,7 @@ keywords = ["regulations", "regulation", "regulatory","law","laws",
             "ordenance","order","monitoring","supervision","restriction",
             "oversight","limitations","guidelines","compliance","enforcement",
             "authority","bylaw","license","standards","mandate","police",
-            "judge","court","fairness","ethics"]
+            "judge","court","fairness","ethics","country"]
 
 # Create an empty set to store unique indices
 all_indices = set()

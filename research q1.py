@@ -4,7 +4,6 @@ from bertopic import BERTopic
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.decomposition import PCA
 from umap import UMAP
 
 
@@ -27,10 +26,9 @@ comments = comments[comments['body'].notnull()]  # Remove null comments
 comments = pd.concat([comments['body'], submissions['title']], axis=0)
 #%%
 # model
-embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 vectorizer_model = CountVectorizer(ngram_range=(1, 2), stop_words='english', min_df = 10)
 # Initialize BERTopic model
-model = BERTopic(embedding_model=embedding_model, vectorizer_model=vectorizer_model, umap_model=umap_model)
+model = BERTopic(vectorizer_model=vectorizer_model, umap_model=umap_model)
 
 # Fit the model
 topics, probs = model.fit_transform(comments)

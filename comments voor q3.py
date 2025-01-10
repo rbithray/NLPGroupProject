@@ -1,11 +1,7 @@
 #%%
-import numpy as np
 from bertopic import BERTopic
 import pandas as pd
-from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.decomposition import PCA
-
 
 #%%
 # File paths

@@ -2,10 +2,8 @@
 import numpy as np
 from bertopic import BERTopic
 import pandas as pd
-from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import CountVectorizer
 from umap import UMAP
-
 
 #%%
 # Random state
@@ -42,7 +40,7 @@ topic_frequencies = model.get_topic_info()
 # Display the top N topics by frequency
 print(topic_frequencies.head(17))
 
-# Display the top words for the most frequent topics
+
 for topic_id in topic_frequencies['Topic'].head(10):
     if topic_id != -1:  # Skip outliers
         print(f"Topic {topic_id}:")

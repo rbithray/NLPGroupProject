@@ -18,8 +18,6 @@ comments_df = pd.read_json(path.join('data', 'comments.ndjson'), lines=True)
 submission_df = pd.read_json(path.join('data', 'submissions.ndjson'), lines=True)
 
 comments = comments_df[(comments_df['body'] != '[removed]') & (comments_df['body'] != '[deleted]')]
-# submissions = pd.concat([submission_df['title'], submission_df[submission_df['selftext']]])
-
 
 comments['date'] = pd.to_datetime(comments['created_utc'], unit='s').dt.strftime("%m, %d, %Y")
 submission_df['date'] = pd.to_datetime(submission_df['created_utc'], unit='s').dt.strftime("%m, %d, %Y")
@@ -70,4 +68,4 @@ model.visualize_topics_over_time(
     custom_labels=True,
     top_n_topics=5
 )
-# %%
+

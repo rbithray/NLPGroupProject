@@ -5,7 +5,6 @@ from umap import UMAP
 import numpy as np
 import pandas as pd
 from os import path
-from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import CountVectorizer
 
 # Random seed to increase reproducibility
@@ -42,10 +41,9 @@ print(timestamps.max())
 #%%
 # Initializing and fitting the model
 umap_model = UMAP(random_state=42)
-embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 vectorizer_model = CountVectorizer(ngram_range=(1, 2), min_df = 10)
 
-model = BERTopic(embedding_model=embedding_model, vectorizer_model=vectorizer_model, umap_model=umap_model)
+model = BERTopic(vectorizer_model=vectorizer_model, umap_model=umap_model)
 topics, probs = model.fit_transform(text.tolist())
 
 #%%

@@ -50,5 +50,5 @@ for topic_id in topic_frequencies['Topic'].head(10):
 
 # %%
 #taking a closer look at specific topics
-print(model.get_topic(15))
+print(model.get_topic_info(0))
 # %%

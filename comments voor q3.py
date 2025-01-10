@@ -20,10 +20,9 @@ removed_markers = ["[removed]", "[deleted]"]
 comments = comments[~comments['body'].isin(removed_markers)]
 comments = comments[comments['body'].notnull()]  # Remove null comments
 
-embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 vectorizer_model = CountVectorizer(ngram_range=(1, 2), stop_words='english', min_df = 10)
 # Initialize BERTopic model
-model = BERTopic(embedding_model=embedding_model, vectorizer_model=vectorizer_model)
+model = BERTopic(vectorizer_model=vectorizer_model)
 
 # Fit the model
 topics, probs = model.fit_transform(comments['body'])
@@ -38,7 +37,6 @@ keywords = [
     "oversight", "limitations", "guidelines", "compliance", "enforcement",
     "authority", "bylaw", "license", "standards", "mandate", "police",
     "judge", "court", "fairness", "ethics", "country",
-    # Additional keywords
     "act", "charter", "code", "decree", "edict", "legislation", 
     "proclamation", "provision", "ruling", "sanction", "treaty", 
     "protocol", "constitution", "convention", "ordinance", "clause",
@@ -72,11 +70,10 @@ for keyword in keywords:
         # Get the most similar topic ID for the current keyword
         topic_id = similar_topics[0]
 
-        # Use numpy array indexing or boolean mask for topic matching
+        # boolean mask for topic matching
         topic_mask = [t == topic_id for t in topics]  # Create a boolean mask
-        topic_comments = comments[topic_mask]        # Apply the mask to the DataFrame
+        topic_comments = comments[topic_mask]        
 
-        # Add the indices of comments related to this topic to the set
         all_indices.update(topic_comments.index)
 
         print(f"Keyword '{keyword}' - Topic ID: {topic_id}, Matches: {len(topic_comments)}")
@@ -86,40 +83,22 @@ for keyword in keywords:
 # Convert the set of indices to a sorted list (optional)
 all_indices_sorted = sorted(list(all_indices))
 
-# Display the indices of all relevant comments
+
 print(f"Total unique relevant comment indices: {len(all_indices_sorted)}")
 print(all_indices_sorted)
 
 import json
 
-# Je lijst met indices en comments (voorbeeld)
-all_indices_sorted = sorted(list(all_indices))  # Gesorteerde lijst met indices
-comments_body = comments["body"]  # De comments uit je data
 
-# Maak een dictionary met indices en bijbehorende comments
+all_indices_sorted = sorted(list(all_indices))
+comments_body = comments["body"]  # De comments
+
+# een dictionary met indices en bijbehorende comments
 comments_with_indices = {index: comments_body[index] for index in all_indices_sorted}
 
-# Opslaan als JSON-bestand met expliciete UTF-8 codering
+
 with open('comments.json', 'w', encoding='utf-8') as f:
     json.dump(comments_with_indices, f, ensure_ascii=False, indent=4)
 
 print("Comments opgeslagen in 'comments.json'")
 
-#%%
-model.visualize_topics()
-# %%
-# Get topic frequencies
-topic_frequencies = model.get_topic_info()
-
-# Display the top N topics by frequency
-print(topic_frequencies.head(17))
-
-# Display the top words for the most frequent topics
-for topic_id in topic_frequencies['Topic'].head(10):
-    if topic_id != -1:  # Skip outliers
-        print(f"Topic {topic_id}:")
-        print(model.get_topic(topic_id))
-
-# %%
-print(model.get_topic(6))
-# %%
